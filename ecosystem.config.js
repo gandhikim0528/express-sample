@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'app',
-    script: 'npm run debug',
+    script: './bin/www',
 
     // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
     args: 'one two',
@@ -10,10 +10,12 @@ module.exports = {
     watch: false,
     max_memory_restart: '1G',
     env: {
-      NODE_ENV: 'development'
+      NODE_ENV: 'development',
+      DEBUG: 'myapp:*'
     },
     env_production: {
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
+      DEBUG: 'myapp:info'
     }
   }],
 

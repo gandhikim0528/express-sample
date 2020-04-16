@@ -1,14 +1,11 @@
 var express = require('express');
-//var debug = require('debug')('myapp:index');
-var debug = require('debug');
-var info = debug('myapp:info');
-
+var { log } = require('../common/debug')
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  debug('debug log test')
-  info('info log test')
+  log.info('log info test')
+  log.info('dev env DB_HOST[' + process.env.DB_HOST)
   res.render('index', { title: 'Express' });
 });
 
