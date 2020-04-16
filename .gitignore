@@ -119,5 +119,9 @@ temp/
 # Ignore all local history of files
 .history
 
+# add gandhi
+env/
+config/
+
 # End of https://www.gitignore.io/api/node,visualstudiocode
 
