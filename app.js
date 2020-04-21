@@ -3,8 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var dotenv = require('dotenv')
 var { log } = require('./common/debug')
+var sequelize = require('./config/sequelize')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -13,6 +13,14 @@ var rfs = require('rotating-file-stream')
 
 var app = express();
 
+// env log
+if(app.get('env') == 'development') {
+  log.info('NODE_ENV[development]')
+} else if(app.get('env') == 'production') {
+  log.info('NODE_ENV[production]')
+} else {
+  log.info('NODE_ENV[' + app.get('env'))
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,21 +58,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// env 
-if(app.get('env') == 'development') {
-  log.info('NODE_ENV[development]')
-  if(dotenv.config({ path: './env/dev.env' }).error) {
-    log.info('Not found dev.env file');
-    // dotenv.config({ path: './default.env' })
-  }
-} else if(app.get('env') == 'production') {
-  log.info('NODE_ENV[production]')
-  if(dotenv.config({ path: './env/prod.env' }).error) {
-    log.info('Not found prod.env file');
-  }
-} else {
-  log.info('NODE_ENV[' + app.get('env'))
-  dotenv.config({ path: './default.env' })
-}
+// mysql orm
+sequelize.authenticate()
+  .then(function(err) {
+    log.info('Connection has been established successfully.')
+  })
+  .catch(function (err) {
+    log.error('Unable to connect to the database:', err)
+  })
 
 module.exports = app;

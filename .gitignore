@@ -121,7 +121,6 @@ temp/
 
 # add gandhi
 env/
-config/
 
 # End of https://www.gitignore.io/api/node,visualstudiocode
 
